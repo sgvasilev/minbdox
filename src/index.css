@@ -1,0 +1,91 @@
+.App {
+  text-align: center;
+}
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 400px;
+}
+.input {
+  padding: 8px;
+  width: 100%;
+}
+.input::placeholder {
+  font-style: italic;
+}
+.card {
+  width: 100%;
+  border: 1px solid gray;
+  padding: 8px 8px;
+  position: relative;
+  cursor: pointer;
+  min-height: 20px;
+  overflow-wrap: break-word;
+}
+.card__text {
+  text-align: left;
+  margin-left: 50px;
+  margin-right: 10px;
+}
+.footer__wrapper {
+  display: flex;
+  width: 100%;
+  padding: 8px;
+  justify-content: space-between;
+}
+.card__btn {
+  position: absolute;
+  left: 10px;
+  width: 30px;
+  height: 30px;
+  top: 3px;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 1px solid rgb(95, 102, 91);
+}
+.card_DONE > div {
+  transition: all 0.3s;
+  font-style: oblique;
+  text-decoration: line-through;
+  color: gray;
+}
+
+.card_DONE #arrow_left {
+  transition: all 0.3s;
+  width: 11px;
+  height: 3px;
+  transform: rotate(45deg);
+  position: absolute;
+  background: rgb(20, 228, 193);
+  left: 4px;
+  top: 14px;
+}
+
+.card_DONE #arrow_right {
+  transition: all 0.3s;
+  width: 3px;
+  height: 16px;
+  transform: rotate(45deg);
+  position: absolute;
+  background: rgb(20, 228, 193);
+  left: 16px;
+  top: 6px;
+}
+.btn {
+  background: transparent;
+  border: 1px solid gray;
+  cursor: pointer;
+  border-radius: 8px;
+
+  padding: 4px;
+  height: 100%;
+
+  width: fit-content;
+}
+.footer__section {
+  gap: 7px;
+  display: flex;
+}
