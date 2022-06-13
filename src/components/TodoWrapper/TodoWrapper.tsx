@@ -1,60 +1,67 @@
 import React, { useContext, useState } from "react";
-import {
-  ACTIVE,
-  ACTIVE_TODO,
-  ALL_TODO,
-  COMPLETED_TODO,
-  DONE,
-  oneTodo,
-} from "../../constants";
+import { ActionType } from "../../actions/todoActions";
+import { TodoDashboardStatus, TodoStatus, TodoType } from "../../constants";
 import { TodoContext } from "../../context";
 import Input from "../Input/Input";
 import TodoCard from "../TodoCard/TodoCard";
 import TodoHeader from "../TodoHeader/TodoHeader";
 
 const TodoWrapper = () => {
-  const [todoTypes, setTodoTypes] = useState(ALL_TODO);
-  const handleTodoTypes = (type: string) => {
-    setTodoTypes(type);
-  };
-  const { todo, addTodo } = useContext(TodoContext);
-  const addTodoHandler = (todo): void => {
-    addTodo(todo);
-  };
-
-  const _handle = () => {
-    if (todoTypes === ACTIVE_TODO) {
-      const data = todo.filter((el: oneTodo) => el.status === ACTIVE);
+  const [todoTypes, setTodoTypes] = useState(TodoDashboardStatus.ALL_TODO);
+  const { dispatch, state } = useContext(TodoContext);
+  const dataContext = state.todo;
+  const handleTodo = () => {
+    if (todoTypes === TodoDashboardStatus.ACTIVE_TODO) {
+      const data = dataContext.filter(
+        (el: TodoType) => el.status === TodoStatus.ACTIVE
+      );
       return {
         data: data,
         activeTodo: data.length,
+        activeTab: TodoDashboardStatus.ACTIVE_TODO,
       };
-    } else if (todoTypes === ALL_TODO) {
+    } else if (todoTypes === TodoDashboardStatus.ALL_TODO) {
       let activeTodo = 0;
-      for (let t of todo.values()) {
-        if (t.status === ACTIVE) activeTodo++;
+      for (let i = 0; i < dataContext.length; i++) {
+        if (dataContext[i].status === TodoStatus.ACTIVE) activeTodo++;
       }
       return {
-        data: todo,
+        data: dataContext,
         activeTodo: activeTodo,
+        activeTab: TodoDashboardStatus.ALL_TODO,
       };
-    } else if (todoTypes === COMPLETED_TODO) {
-      const data = todo.filter((el: oneTodo) => el.status === DONE);
-      const length = todo.filter((el: oneTodo) => el.status === ACTIVE);
+    } else if (todoTypes === TodoDashboardStatus.COMPLETED_TODO) {
+      const data = dataContext.filter(
+        (el: TodoType) => el.status === TodoStatus.DONE
+      );
+      const length = dataContext.filter(
+        (el: TodoType) => el.status === TodoStatus.ACTIVE
+      );
 
       return {
         data: data,
         activeTodo: length.length,
+        activeTab: TodoDashboardStatus.COMPLETED_TODO,
       };
     }
   };
-  const { data, activeTodo } = _handle();
+  const { data, activeTodo, activeTab } = handleTodo();
+  const handleTodoTypes = (type: TodoDashboardStatus) => {
+    setTodoTypes(type);
+  };
+  const addTodoHandler = (todo: string): void => {
+    dispatch({ type: ActionType.ADD_TODO, payload: todo });
+  };
 
   return (
     <div className="wrapper">
-      <TodoHeader handleTodoTypes={handleTodoTypes} activeTodo={activeTodo} />
+      <TodoHeader
+        handleTodoTypes={handleTodoTypes}
+        activeTodo={activeTodo}
+        activeTab={activeTab}
+      />
       <Input addTodoHandler={addTodoHandler} />
-      {data?.map((todo_item: oneTodo) => (
+      {data?.map((todo_item: TodoType) => (
         <TodoCard
           key={todo_item.id}
           text={todo_item.text}

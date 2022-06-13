@@ -1,6 +1,10 @@
 import React, { KeyboardEvent, useState } from "react";
 
-const Input = ({ addTodoHandler }) => {
+const Input = ({
+  addTodoHandler,
+}: {
+  addTodoHandler: (todo: string) => void;
+}) => {
   const [todo, setTodo] = useState("");
   const _handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
@@ -13,6 +17,7 @@ const Input = ({ addTodoHandler }) => {
   return (
     <>
       <input
+        data-testid="input"
         type="text"
         value={todo}
         onChange={(e) => setTodo(e.target.value)}

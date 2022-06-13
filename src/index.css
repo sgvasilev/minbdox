@@ -1,7 +1,6 @@
 .App {
   text-align: center;
 }
-
 .wrapper {
   margin: 0 auto;
   display: flex;
@@ -76,7 +75,7 @@
 }
 .btn {
   background: transparent;
-  border: 1px solid gray;
+  border: 2px solid gray;
   cursor: pointer;
   border-radius: 8px;
 
@@ -84,6 +83,10 @@
   height: 100%;
 
   width: fit-content;
+}
+.btn_active {
+  border: 2px solid rgb(35, 142, 213);
+  transition: all 0.3s;
 }
 .footer__section {
   gap: 7px;

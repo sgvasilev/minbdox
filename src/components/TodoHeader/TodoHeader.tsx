@@ -1,43 +1,57 @@
 import React, { useContext } from "react";
-import { ACTIVE_TODO, ALL_TODO, COMPLETED_TODO } from "../../constants";
+import { ActionType } from "../../actions/todoActions";
+import { TodoDashboardStatus } from "../../constants";
 import { TodoContext } from "../../context";
 
-const TodoFooter = ({ handleTodoTypes, activeTodo }) => {
-  const { deleteTodos } = useContext(TodoContext);
+const TodoHeader = ({
+  activeTab,
+  handleTodoTypes,
+  activeTodo,
+}: {
+  activeTab: TodoDashboardStatus;
+  handleTodoTypes: (TodoDashboardStatus: TodoDashboardStatus) => void;
+  activeTodo: TodoDashboardStatus;
+}) => {
+  const { dispatch } = useContext(TodoContext);
+  const _deleteTodos = () => {
+    dispatch({
+      type: ActionType.DELETE_TODO,
+    });
+  };
   return (
     <div className="footer__wrapper">
       <div>{+activeTodo} items left</div>
       <div className="footer__section">
         <button
-          className="btn"
+          className={`btn ${activeTab == 0 ? "btn_active" : "btn_default"}`}
           onClick={() => {
-            handleTodoTypes(ALL_TODO);
+            handleTodoTypes(TodoDashboardStatus.ALL_TODO);
           }}
         >
           All
         </button>
         <button
-          className="btn"
+          className={`btn ${activeTab == 1 ? "btn_active" : "btn_default"}`}
           onClick={() => {
-            handleTodoTypes(ACTIVE_TODO);
+            handleTodoTypes(TodoDashboardStatus.ACTIVE_TODO);
           }}
         >
           Active
         </button>
         <button
-          className="btn"
+          className={`btn ${activeTab == 2 ? "btn_active" : "btn_default"}`}
           onClick={() => {
-            handleTodoTypes(COMPLETED_TODO);
+            handleTodoTypes(TodoDashboardStatus.COMPLETED_TODO);
           }}
         >
           Completed
         </button>
       </div>
-      <button className="btn" onClick={deleteTodos}>
+      <button className="btn" onClick={_deleteTodos}>
         Clear completed
       </button>
     </div>
   );
 };
 
-export default TodoFooter;
+export default TodoHeader;

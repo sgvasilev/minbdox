@@ -1,28 +1,25 @@
-import {
-  ACTIVE,
-  ADD_TODO,
-  DELETE_TODOS,
-  DONE,
-  GET_TODOS,
-  UPDATE_TODOS,
-} from "../../constants";
+import { InitialStateType, TodoStatus } from "../../constants";
 import { v4 as uuid } from "uuid";
+import { ActionType, TodoActions } from "../../actions/todoActions";
 
-export const TodoReducer = (state, action) => {
+export const todoReducer = (
+  state: InitialStateType,
+  action: TodoActions
+): InitialStateType => {
   switch (action.type) {
-    case GET_TODOS: {
-      const tempArr = [...state.todo];
-      return [...tempArr];
-    }
-    case ADD_TODO: {
+    case ActionType.ADD_TODO: {
       return {
         todo: [
-          { id: uuid(), text: action.payload, status: ACTIVE },
+          {
+            id: uuid(),
+            text: action.payload.toString(),
+            status: TodoStatus.ACTIVE,
+          },
           ...state.todo,
         ],
       };
     }
-    case UPDATE_TODOS: {
+    case ActionType.UPDATE_TODO: {
       const tempArr = [...state.todo];
       const todoToUpdate = tempArr.find(
         (todo) => todo.id === action.payload.id
@@ -39,9 +36,11 @@ export const TodoReducer = (state, action) => {
         todo: [...updatedState],
       };
     }
-    case DELETE_TODOS: {
+    case ActionType.DELETE_TODO: {
       const temp = [...state.todo];
-      const updatedState = temp.filter((todo) => todo.status !== DONE);
+      const updatedState = temp.filter(
+        (todo) => todo.status !== TodoStatus.DONE
+      );
       return {
         todo: [...updatedState],
       };

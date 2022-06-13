@@ -1,58 +1,19 @@
 import React, { createContext, useReducer } from "react";
-import { TodoReducer } from "../../reducers";
-import {
-  GET_TODOS,
-  UPDATE_TODOS,
-  ADD_TODO,
-  DELETE_TODOS,
-} from "../../constants";
-import {
-  InitialStateType,
-  TodoContextProviderProps,
-  TodoType,
-} from "../../constants/enums";
+import { TodoActions } from "../../actions/todoActions";
+
+import { InitialStateType, TodoContextProviderProps } from "../../constants";
+import { todoReducer } from "../../reducers";
+
+const initialState: InitialStateType = {
+  todo: [],
+};
+export const TodoContext = createContext<{
+  state: InitialStateType;
+  dispatch: React.Dispatch<TodoActions>;
+}>({ state: initialState, dispatch: () => undefined });
 
 export const TodoProvider = ({ children }: TodoContextProviderProps) => {
-  const initialState: InitialStateType = {
-    todo: [],
-  };
-  const TodoContext = createContext<{
-    state: InitialStateType;
-    dispatch: React.Dispatch<unknown>;
-  }>({ state: initialState, dispatch: () => null });
-
-  const mainReducer = ({ todo }: any, action: any) => ({
-    todo: TodoReducer(todo, action),
-  });
-
-  const [state, dispatch] = useReducer(mainReducer, initialState);
-  const getTodos = (todoType: string) => {
-    dispatch({
-      type: GET_TODOS,
-      payload: todoType,
-    });
-  };
-  const addTodo = (todo: string) => {
-    dispatch({
-      type: ADD_TODO,
-      payload: todo,
-    });
-  };
-  const updateTodo = (id: string, status: string) => {
-    dispatch({
-      type: UPDATE_TODOS,
-      payload: {
-        id,
-        status,
-      },
-    });
-  };
-  const deleteTodos = () => {
-    dispatch({
-      type: DELETE_TODOS,
-    });
-  };
-
+  const [state, dispatch] = useReducer(todoReducer, initialState);
   return (
     <TodoContext.Provider
       value={{

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
-import { ACTIVE, DONE } from "../../constants";
+import { ActionType } from "../../actions/todoActions";
+import { TodoStatus } from "../../constants";
 import { TodoContext } from "../../context";
 const TodoCard = ({
   text,
@@ -10,15 +11,18 @@ const TodoCard = ({
   id: string;
   status: string;
 }): JSX.Element => {
-  const { updateTodo } = useContext(TodoContext);
-  const _handleCardClick = () => {
+  const { dispatch } = useContext(TodoContext);
+  const _handleCardClick = (): void => {
     let newStatus;
-    if (status === ACTIVE) {
-      newStatus = DONE;
+    if (status === TodoStatus.ACTIVE) {
+      newStatus = TodoStatus.DONE;
     } else {
-      newStatus = ACTIVE;
+      newStatus = TodoStatus.ACTIVE;
     }
-    updateTodo(id, newStatus);
+    dispatch({
+      type: ActionType.UPDATE_TODO,
+      payload: { id, status: newStatus },
+    });
   };
 
   return (
