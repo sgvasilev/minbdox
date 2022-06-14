@@ -12,5 +12,5 @@
     "downlevelIteration": true,
     "esModuleInterop": true
   },
-  "exclude": ["spec", "node_modules"]
+  "exclude": ["spec", "node_modules", "server.js"]
 }
